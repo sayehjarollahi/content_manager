@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Sign-in{% endblock title %}
+
+{% block content %}
+    <h1>HomePage</h1>
+    <ul>
+        <li><strong>logged-in:</strong> {{ is_authenticated }}</li>
+        <li><strong>username:</strong> {{ username }}</li>
+    </ul>
+
+    {% if not user.is_authenticated %}
+        <p class="text-center">Login <a href="/login">Here</a></p>
+    {% else %}
+        <p class="text-center">Logout <a href="/logout">Here</a></p>
+    {% endif %}
+{% endblock content %}

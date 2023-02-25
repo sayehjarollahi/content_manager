@@ -1,3 +1,4 @@
 django==3.1.5
 djangorestframework==3.14
 requests
+Pillow

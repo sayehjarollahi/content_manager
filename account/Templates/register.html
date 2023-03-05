@@ -3,11 +3,31 @@
 {% block title %}Register{% endblock title %}
 
 {% block content %}
-    <h2>Register Page</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Register</button>
-        <br><br>
-    </form>
+    <div class="content_div">
+        <div class="login_div">
+            <h2 style="margin-bottom: 16px; width: 100%; text-align: center;">ورود</h2>
+            <div class="form_div">
+                <form method="POST">
+                    {% csrf_token %}
+                    <tr>
+                        <th><label for="id_username">Username:</label></th>
+                        <td><input type="text" name="username" maxlength="30" autofocus required id="id_username"></td>
+                    </tr>
+                    <tr>
+                        <th><label for="id_password1">Password:</label></th>
+                        <td><input type="password" name="password1" autocomplete="new-password" required
+                                   id="id_password1"><br><span class="helptext"><ul><li>Your password can’t be too similar to your other personal information.</li><li>Your password must contain at least 8 characters.</li><li>Your password can’t be a commonly used password.</li><li>Your password can’t be entirely numeric.</li></ul></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><label for="id_password2">Password confirmation:</label></th>
+                        <td><input type="password" name="password2" autocomplete="new-password" required
+                                   id="id_password2"><br><span class="helptext">Enter the same password as before, for verification.</span>
+                        </td>
+                    </tr>
+                    <button class="button" type="submit">ثبت نام</button>
+                </form>
+            </div>
+        </div>
+    </div>
 {% endblock content %}

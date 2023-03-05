@@ -16,12 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from account.views import RegisterView, index, create_library
-
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', index, name='index'),
-    path('create_library/', create_library, name='index'),
-    path('register/', RegisterView.as_view(), name='register'),
     path('', include("django.contrib.auth.urls")),
+    path('', include('account.urls'))  # new
 ]

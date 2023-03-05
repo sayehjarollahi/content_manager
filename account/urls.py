@@ -18,6 +18,8 @@ urlpatterns = [
 
     path('profile', profile_view.profile, name='profile'),
 
-    
+    path('library/<int:libraryId>/', library_view.library_page, name='library-page'),
+    path('add-library/', library_view.add_library, name='add-library'),
+    path('delete-library', library_view.delete_library, name='delete-library'),
 
 ]

@@ -8,8 +8,8 @@ from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
-from account.models import Category, Account, Suffix, File, Content, ContentAttributeKey, ContentAttribute, Attachment, \
-    Library, AttachCategory
+from account.models import Category, Account, Suffix, File, Content, ContentAttributeKey, \
+    ContentAttribute, Attachment, Library, AttachCategory
 
 
 @transaction.atomic
@@ -165,9 +165,6 @@ def get_content(request, content_id, str):
     context['categoryID'] = content.category.pk
     context['creator_user'] = content.creator_account.user.username
     context['creation_date'] = content.file.creation_date
-    context['privacy'] = "Private"
-    if not content.is_private:
-        context['privacy'] = "Public"
 
     all_categories = Category.objects.all()
     attach_list = []
@@ -201,8 +198,6 @@ def get_content(request, content_id, str):
 
     context["attribute_key_values"] = attribute_key_values_send
     context['error'] = "None"
-    context['image_address'] = content.category.image
-    print(content.category.image)
     l = list(Library.objects.filter(category=content.category))
     ll = []
     for item in l:
@@ -243,9 +238,6 @@ def content_main_page(request, content_id):
     context['categoryID'] = content.category.pk
     context['creator_user'] = content.creator_account.user.username
     context['creation_date'] = content.file.creation_date
-    context['privacy'] = "Private"
-    if not content.is_private:
-        context['privacy'] = "Public"
 
     all_categories = Category.objects.all()
     attach_list = []
@@ -289,7 +281,7 @@ def content_main_page(request, content_id):
         usernames_values.append(user.username)
     context['usernames_values'] = usernames_values
     context['username_login'] = User.objects.get(pk=request.user.id).username
-    context['privacy'] = str(content.is_private)
+
     if request.method == 'POST':
         return save_content(request, content_id, context)
     return render(request, 'content.html', context)
@@ -430,3 +422,14 @@ def share_content(request, content_id, username):
     account.save()
     user.save()
     return redirect('../../')
+
+
+def delete_content(request):
+    if request.method == 'POST':
+        content_id = request.POST['content_id']
+        content = Content.objects.get(pk=content_id)
+        if request.user.account == content.creator_account:
+            file = content.file
+            file.delete()
+            content.delete()
+        return redirect('/my-page/files/all/')

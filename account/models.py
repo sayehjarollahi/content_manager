@@ -41,7 +41,6 @@ class Library(models.Model):
 
 class Content(models.Model):
     title = models.CharField(max_length=30)
-    is_private = models.BooleanField()
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name='contents')
     file = models.ForeignKey(File, on_delete=models.CASCADE)
     library = models.ForeignKey(Library, on_delete=models.SET_NULL, null=True, blank=True, related_name='contents')

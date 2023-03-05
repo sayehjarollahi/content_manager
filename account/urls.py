@@ -1,6 +1,7 @@
 from django.urls import path
 
-from account.views import register_view, create_library_view, index_view, my_page_view, content_view
+from account.views import register_view, create_library_view, index_view, my_page_view, content_view, profile_view, \
+    library_view
 
 urlpatterns = [
     path('', index_view.index, name='home'),
@@ -13,4 +14,10 @@ urlpatterns = [
     path('content/<int:content_id>/download-link-content', content_view.create_download_link, name='download-content'),
     path('content/<int:content_id>/addLibrary/<int:library_id>/', content_view.add_to_library, name='add_library'),
     path('content/<int:content_id>/shareContent/<str:username>/', content_view.share_content, name='share_content'),
+    path('delete-content', content_view.delete_content, name='delete-content'),
+
+    path('profile', profile_view.profile, name='profile'),
+
+    
+
 ]

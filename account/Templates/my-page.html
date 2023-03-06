@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Register{% endblock title %}
+
+{% block content %}
+    <style>
+        .navbar-nav > .active > a {
+            background-color: #C0C0C0;
+            color: cyan;
+        }
+
+        .navbar-nav {
+            text-align: center;
+        }
+
+        .navbar-nav li {
+            background-color: #e7e7e7;
+            display: inline;
+            padding: 25px;
+        }
+
+        .navbar-nav li a {
+            padding: 30px 30px;
+            font-size: large;
+            color: black;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            padding: 15px;
+        }
+
+        .hello {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 300px;
+            width: 100%;
+            z-index: 1;
+        }
+
+
+    </style>
+
+    {% if view == 'my-page' %}
+        <ul class="navbar-nav" style="display: block; margin-top: 36px">
+            <li class="nav-item">
+                <a class="nav-link" href="/my-page/files/all/" style="display: inline"> Files </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/my-page/libraries/all/" style="display: inline"> Libraries </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/my-page/shared/all/" style="display: inline"> Shared Files </a>
+            </li>
+        </ul>
+    {% else %}
+    {% endif %}
+
+    {% if view == 'my-page' %}
+        <ul class="navbar-nav" style="display: block; margin-top: 60px">
+            <li class="nav-item">
+                <a class="nav-link" href="../all/" style="display: inline"> All </a>
+            </li>
+            {% for category in categories %}
+                <li class="nav-item">
+                    <a href="../{{ category.title }}/" style="display: inline; text-decoration: none">{{ category.title }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+    {% endif %}
+
+    <div class="grid-container2" style="margin-top: 24px">
+        <div class="grid-container" style="align-self: center;">
+
+            {% for item in items %}
+                <div class="grid-item">
+                    <div class="card" style="padding: 8px; margin: 8px 32px">
+                        {% if file_or_lib == 'file' %}
+                            <div style="margin-bottom: 10px">
+                                <a class='name' href="/content/{{ item.id }}">{{ item.title }}</a>
+                            </div>
+                        {% else %}
+                            <div style="margin-bottom: 10px">
+                                <a class='name' href="/library/{{ item.id }}">{{ item.title }}</a>
+                            </div>
+                        {% endif %}
+
+                        {% if file_or_lib == 'file' %}
+                            <div style="font-size:medium" class="post-meta">
+                                <span>created:</span> {{ item.file.creation_date }}
+                            </div>
+                        {% else %}
+                            <div style="font-size:medium" class="post-meta">
+                                <span>category:</span> {{ item.category.title }}
+                            </div>
+                        {% endif %}
+
+                        <div style="height: 10px;"></div>
+
+                        {% if file_or_lib == 'file' %}
+                            <div style="font-size:medium" class="post-meta">
+                                <span>owner:</span> {{ item.creator_account.user.username }}</div>
+                        {% else %}
+                        {% endif %}
+
+                        {% if file_or_lib == 'lib' %}
+                            <div> contains {{ item.contents.all|length }} files</div>
+                        {% else %}
+                        {% endif %}
+
+
+                        {% if file_or_lib == 'lib' %}
+                            {% if  user.account == item.account %}
+                                <a style="color: black; margin-right: 20px;" class="icon-trash mr-3" href="#"
+                                   onclick="my_func('{{ item.category.title }}', '{{ item.title }}')"> </a>
+                            {% else %}
+                            {% endif %}
+                        {% else %}
+                            {% if  user.account == item.creator_account %}
+                                <a style="color: black; margin-right: 20px;" class="icon-trash mr-3" href="#"
+                                   onclick="post_delete_content({{ item.id }})"> </a>
+
+                            {% else %}
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+                </div>
+            {% endfor %}
+    </div>
+
+
+
+    {% if file_or_lib == 'lib' %}
+        <a href="/add-library/" class="button-3">
+            <button style="padding: 8px; margin: 0 32px 0 32px;">Add Library</button>
+        </a>
+    {% else %}
+        <a href="/add-content/" class="button-3">
+            <button style="padding: 8px; margin: 0 32px 0 32px;">Add Content</button>
+        </a>
+    {% endif %}
+
+{% endblock %}

@@ -19,7 +19,7 @@ def my_page(request, page_type, categoryTitle):
             category = Category.objects.get(title=categoryTitle)
 
             items = Content.objects.filter(
-                Q(creator_account=account, category=category) | Q(category=category)
+                Q(creator_account=account, category=category)
             )
 
         file_or_lib = 'file'

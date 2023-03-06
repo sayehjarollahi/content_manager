@@ -1,0 +1,233 @@
+{% extends "base.html" %}
+
+{% block title %} Add Content {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+{% endblock stylesheets %}
+
+
+{% block content %}
+
+    <style>
+        .row {
+            margin-top: 10px;
+        }
+    </style>
+
+    <div class="row" style="margin-top: 0 !important;">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 style="background-color: transparent">صفحه محتوا</h5>
+                </div>
+                <aside class="sidebar">
+                    <div class="toggle" style="overflow:hidden;">
+                        <a href="#" class="burger js-menu-toggle" data-toggle="collapse" data-target="#main-navbar"
+                           style="color:white;">
+                            <span></span>
+                        </a>
+                    </div>
+                    <div class="side-inner">
+
+
+                        <div class="profile">
+                            <div style="position: relative;">
+
+                                <a href="/personal-info" style="color: black;">
+                                    <span class="icon-pencil mr-3"
+                                          style="position: absolute; bottom:0px; left:175px;"></span>
+                                </a>
+                            </div>
+
+                            <h3 class="name">{{ user.first_name }} {{ user.last_name }}</h3>
+                        </div>
+                    </div>
+                </aside>
+
+                <div class="card-body" style="padding: 0 16px">
+                    <div id="form1">
+                        <div class="row">
+                            <div class="col-md-5 pr-md-1">
+                                <div class="form-group">
+                                    <label>عنوان</label>
+                                    <input id="content-title" type="text" class="form-control" name="content-title"
+                                           disabled value="{{ title }}">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5 pr-md-1">
+                                <div class="form-group">
+                                    <label>دسته‌بندی</label>
+                                    <input id="category-title" type="text" class="form-control" name="category"
+                                           disabled value="{{ category }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5 pr-md-1">
+                                <div class="form-group">
+                                    <label>سازنده</label>
+                                    <input id="creator" type="text" class="form-control" name="creator" disabled
+                                           value="{{ creator_user }}">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                            </div>
+                            <div class="col-md-4">
+                                <form action="/content/{{ content_id }}/addLibrary/" method="post">
+                                    {% csrf_token %}
+                                    <input type="text" style="width: auto !important; height: 50px; margin-right: 8px"
+                                           placeholder="library id" dir="ltr" name="library_id">
+                                    <button data-toggle="modal" id="addLibrary" type="submit"
+                                        class="btn btn-success" style="height: 50px; float: right"> Add to library
+                                </button>
+                                </form>
+
+                            </div>
+                        </div>
+                        <div>
+                            <div class="modal fade modal-primary" id="libraryModal" tabindex="-1" role="dialog"
+                                 aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-login">
+                                    <div class="modal-content">
+                                        <div class="card card-login card-plain">
+                                            <div class="modal-body ">
+                                                <form class="form" id="form7" onSubmit="return false">
+                                                    <div class="card-content">
+                                                        <div class="input-group no-border form-control-lg">
+                                                            <select id="libraryA" name="libraryA"
+                                                                    class="form-control">
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </form>
+
+                                            </div>
+                                            <div class="modal-footer text-center pt-4">
+                                                <form action="" id='form9' method="post">
+                                                    <button type="submit"
+                                                            class="btn btn-neutral btn-round btn-lg btn-block">
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5 pr-md-1">
+                                <div class="form-group">
+                                    <label>تاریخ ساخت</label>
+                                    <input id="creation-date" type="text" class="form-control" name="creation-date"
+                                           disabled value="{{ creation_date }}">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                            </div>
+                            <div class="col-md-4">
+                                <form action="/content/{{ content_id }}/shareContent/" method="post">
+                                    {% csrf_token %}
+                                    <input type="text" style="width: auto !important; height: 50px; margin-right: 8px"
+                                           placeholder="username" dir="ltr" name="username">
+                                    <button data-toggle="modal" id="shareContent"
+                                            type="submit"
+                                            class="btn btn-info" style="height: 50px; float: right"> Share content
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="modal fade modal-primary" id="shareModal" tabindex="-1" role="dialog"
+                                 aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-login">
+                                    <div class="modal-content">
+                                        <div class="card card-login card-plain">
+                                            <div class="modal-body ">
+                                                <form class="form" id="form3" onSubmit="return false">
+                                                    <div class="card-content">
+                                                        <div class="input-group no-border form-control-lg">
+                                                            <input id="username" name="username" type="text"
+                                                                   class="form-control" placeholder="Username">
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer text-center pt-4">
+                                                <form id="form10" method="post">
+                                                    <button type="Share"
+                                                            class="btn btn-neutral btn-round btn-lg btn-block"
+                                                            onclick="share()">Share
+                                                    </button>
+                                                </form>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label>پیوست‌ها:</label>
+                            <ui>
+                                {% for attachment in  attachments %}
+                                    <li>{{ attachment }}</li>
+                                {% endfor %}
+                            </ui>
+                        </div>
+
+                    </div>
+                    <div class="container" id="attachList"></div>
+                    <form id="form_attribute" onSubmit="return false">
+
+                    </form>
+                </div>
+                <div>
+                    <div class="modal fade modal-primary" id="attachModal" tabindex="-1" role="dialog"
+                         aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-login">
+                            <div class="modal-content">
+                                <div class="card card-login card-plain">
+                                    <div class="modal-body ">
+                                        <form class="form" id="form3" onSubmit="return false">
+                                            <div class="card-content">
+                                                <div class="input-group no-border form-control-lg">
+                                                    <input id="attach-title" name="attach-title" type="text"
+                                                           class="form-control" placeholder="Title">
+                                                </div>
+
+                                                <div class="input-group no-border form-control-lg">
+                                                    <select id="attach-category" name="attach-category"
+                                                            class="form-control">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <form enctype="multipart/form-data" id="form4" onSubmit="return false">
+                                            {% csrf_token %}
+                                            <input id="attach" type="file" name="attach">
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer text-center pt-4">
+                                        <button type="submit" class="btn btn-neutral btn-round btn-lg btn-block"
+                                                onclick="submitAttachments()">Add
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+{% endblock content %}

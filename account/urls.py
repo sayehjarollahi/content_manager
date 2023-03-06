@@ -13,9 +13,8 @@ urlpatterns = [
     path('delete-library', library_view.delete_library, name='delete-library'),
     path('my-page/<str:page_type>/<str:categoryTitle>/', my_page_view.my_page, name='my_page'),
     path('library/<int:libraryId>/', library_view.library_page, name='library-page'),
-    path('content/<int:content_id>/addLibrary/<int:library_id>/', content_view.add_to_library, name='add_library'),
-    path('content/<int:content_id>/shareContent/<str:username>/', content_view.share_content, name='share_content'),
+    path('content/<int:content_id>/addLibrary/', content_view.add_to_library, name='add_library'),
+    path('content/<int:content_id>/shareContent/', content_view.share_content, name='share_content'),
     path('content/<int:content_id>/download-link-content', content_view.create_download_link, name='download-content'),
-
     path('content/<int:content_id>/', content_view.content_main_page, name='content_main_page'),
 ]

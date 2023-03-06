@@ -274,6 +274,8 @@ def content_main_page(request, content_id):
 
     if request.method == 'POST':
         return save_content(request, content_id, context)
+
+    print(context)
     return render(request, 'content.html', context)
 
 
@@ -395,15 +397,17 @@ def create_download_link(request, content_id):
     return HttpResponse(f'/static/content/Downloads/{content.title}_{content_id}.zip')
 
 
-def add_to_library(request, content_id, library_id):
+def add_to_library(request, content_id):
+    library_id = request.POST['library_id']
     content = Content.objects.get(pk=content_id)
     library = Library.objects.get(pk=library_id)
     content.library = library
     content.save()
-    return redirect('../../')
+    return redirect('/my-page/libraries/all/')
 
 
-def share_content(request, content_id, username):
+def share_content(request, content_id):
+    username = request.POST['username']
     content = Content.objects.get(pk=content_id)
     user = User.objects.get(username=username)
     account = Account.objects.get(user=user)
@@ -411,7 +415,7 @@ def share_content(request, content_id, username):
     content.save()
     account.save()
     user.save()
-    return redirect('../../')
+    return redirect('/my-page/files/all/')
 
 
 def delete_content(request):

@@ -16,7 +16,7 @@ urlpatterns = [
     path('content/<int:content_id>/shareContent/<str:username>/', content_view.share_content, name='share_content'),
     path('delete-content', content_view.delete_content, name='delete-content'),
 
-    path('profile', profile_view.profile, name='profile'),
+    path('profile/', profile_view.profile, name='profile'),
 
     path('library/<int:libraryId>/', library_view.library_page, name='library-page'),
     path('add-library/', library_view.add_library, name='add-library'),

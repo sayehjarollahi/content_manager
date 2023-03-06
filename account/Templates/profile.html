@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile{% endblock title %}
+
+{% block content %}
+    <div class="content_div">
+        <div class="login_div">
+            <h2 style="margin-bottom: 16px; width: 100%; text-align: center;">اطلاعات کاربری</h2>
+            <div class="form_div">
+                <form method="POST">
+                    <tr>
+                        <th><label for="id_username">نام کاربری:</label></th>
+                        <td><input type="text" name="username" maxlength="30" value="{{ username }}" disabled></td>
+                    </tr>
+                    <tr>
+                        <th><label for="id_password1" style="margin-top: 16px">تاریخ عضویت:</label></th>
+                        <td><input name="date_joined" value="{{ date_joined }}" disabled>
+                        </td>
+                    </tr>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

@@ -7,39 +7,30 @@ from django.contrib.auth.models import User
 from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.views.decorators.csrf import csrf_exempt
 
 from account.models import Category, Account, Suffix, File, Content, ContentAttributeKey, \
     ContentAttribute, Attachment, Library, AttachCategory
 
 
+@csrf_exempt
 @transaction.atomic
 def add_content(request):
     if request.method == 'GET':
         return get_add_content(request, "None")
     if request.method == 'POST':
-        title = request.POST.get('content-title', '')
+        title = request.POST.get('title', '')
         if title == '':
             return error(request, "Title is required")
-        is_private = request.POST.get('is-private', None)
-        if is_private.lower() != 'public' and is_private.lower() != 'private':
-            return error(request, "Privacy is required")
-        else:
-            if is_private.lower() == 'public':
-                is_private = bool(False)
-            elif is_private.lower() == 'private':
-                is_private = bool(True)
 
-        categoryID = request.POST.get('category', None)
-        print('h999', categoryID)
-        try:
-            categoryID = int(categoryID)
-        except ValueError:
-            return error(request, "Category is required")
-        category = Category.objects.filter(pk=categoryID).first()
+        category_title = request.POST.get('category', None)
+
+        category = Category.objects.get(title=category_title)
         if category is None:
             return error(request, "Category does not exist")
 
-        user = User.objects.filter(pk=request.user.id).first()
+        # user = User.objects.filter(pk=request.user.id).first()
+        user = User.objects.filter(username="d2").first()
         if user is None:
             return error(request, "User does not exist")
         try:
@@ -49,7 +40,7 @@ def add_content(request):
         except ValueError:
             return error(request, "Account is required")
 
-        file = (request.FILES.get('content-file', None))
+        file = (request.FILES.get('file', None))
         if file is None:
             return error(request, 'File is required')
 
@@ -132,8 +123,7 @@ def add_content(request):
                 return error(request, "Suffix is not proper for attachment")
 
         content_file.save()
-        content = Content(title=title, is_private=is_private, category=category, file=content_file,
-                          creator_account=creator_account)
+        content = Content(title=title, category=category, file=content_file, creator_account=creator_account)
         content.save()
 
         for content_attachment in content_attachments:
@@ -224,7 +214,7 @@ def get_add_content(request, err_str="None"):
         attachs = category.allowed_attach_categories.all()
         for attach in attachs:
             attach_list.append({'category_id': category.pk, 'value': attach.pk, 'title': attach.title})
-    return render(request, 'add-content.html',
+    return render(request, 'add_content.html',
                   {'categories': Category.objects.all(), 'privates': ['Private', 'Public'],
                    'attach_categories': attach_list, 'error': err_str})
 

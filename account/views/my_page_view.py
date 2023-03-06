@@ -14,12 +14,12 @@ def my_page(request, page_type, categoryTitle):
 
     if page_type == 'files':
         if categoryTitle == 'all':
-            items = Content.objects.filter(Q(creator_account=account) | Q(is_private=False))
+            items = Content.objects.filter(Q(creator_account=account))
         else:
             category = Category.objects.get(title=categoryTitle)
 
             items = Content.objects.filter(
-                Q(creator_account=account, category=category) | Q(is_private=False, category=category)
+                Q(creator_account=account, category=category) | Q(category=category)
             )
 
         file_or_lib = 'file'

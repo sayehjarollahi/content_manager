@@ -9,14 +9,8 @@ class Suffix(models.Model):
         return f'{self.title}'
 
 
-class AttachCategory(models.Model):
-    title = models.CharField(max_length=30)
-    allowed_suffixes = models.ManyToManyField(Suffix, related_name='allowed_attach_categories')
-
-
 class Category(models.Model):
     title = models.CharField(max_length=30)
-    allowed_attach_categories = models.ManyToManyField(AttachCategory, related_name='allowed_categories')
     allowed_suffixes = models.ManyToManyField(Suffix, related_name='allowed_categories')
 
 
@@ -62,7 +56,5 @@ class ContentAttribute(models.Model):
 
 class Attachment(models.Model):
     title = models.CharField(max_length=30)
-    attach_category = models.ForeignKey(AttachCategory, on_delete=models.SET_NULL, null=True,
-                                        related_name='attachments')
     content = models.ForeignKey(Content, on_delete=models.CASCADE, related_name='attachments')
     file = models.ForeignKey(File, on_delete=models.CASCADE)

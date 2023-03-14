@@ -18,11 +18,10 @@
             <div style="text-align: center; color: gray; font-size: 30px; font-weight: bold; padding-top: 10%;">Create
                 your Content
             </div>
-            <form action="/add-content/" method="post" enctype="multipart/form-data">
+            <form enctype="multipart/form-data" action="/add-content/" method="post">
                 {% csrf_token %}
                 <div class="form-group">
-                    <label style="margin-top: 32px; margin-bottom: 8px; color: gray; font-size: 20px; font-weight: bold">Library
-                        name</label>
+                    <label style="margin-top: 32px; margin-bottom: 8px; color: gray; font-size: 20px; font-weight: bold">Content name</label>
                     <input type="text" class="form-control" id="name" name="title" style="background-color: gray">
                 </div>
                 <div class="form-group" style="margin-bottom: 20px">
